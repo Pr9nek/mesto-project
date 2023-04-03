@@ -1,0 +1,5 @@
+.profile__name-block {
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+}

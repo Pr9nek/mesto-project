@@ -1,0 +1,8 @@
+.form__user {
+    padding: 0;
+    border: 0;
+    display: flex;
+    flex-direction: column;
+    padding-left: 36px;
+    padding-right: 36px;
+}

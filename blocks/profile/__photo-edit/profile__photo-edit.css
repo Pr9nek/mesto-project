@@ -1,0 +1,16 @@
+.profile__photo-edit {
+    width: 150px;
+    height: 50px;
+    border: 2px solid white;
+    border-radius: 2px;
+    background: black;
+    background-image: url(../../../images/profile__photo-edit.png);
+    background-repeat:no-repeat;
+    background-position: center;
+    box-sizing: border-box;
+}
+
+.profile__photo-edit:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}

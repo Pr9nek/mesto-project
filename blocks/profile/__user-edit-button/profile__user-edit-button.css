@@ -1,0 +1,18 @@
+.profile__user-edit-button {
+    top: 3px;
+    position: relative;
+    width: 24px;
+    height: 24px;
+    border: 1px solid white;
+    background: black;
+    background-image: url(../../../images/user-edit-button.svg);
+    background-repeat:no-repeat;
+    background-position: center;
+    z-index: 0;
+}
+
+.profile__user-edit-button:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}
+

@@ -1,0 +1,84 @@
+@import url(../vendor/normalize.css);
+@import url(../vendor/fonts.css);
+@import url(../blocks/page/page.css);
+@import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/_opened/popup_opened.css);
+@import url(../blocks/popup/__container/popup__container.css);
+@import url(../blocks/form/__title/form__title.css);
+@import url(../blocks/form/__user/form__user.css);
+@import url(../blocks/form/__name/form__name.css);
+@import url(../blocks/form/__status/form__status.css);
+@import url(../blocks/form/__save/form__save.css);
+@import url(../blocks/form/__button/form__button.css);
+@import url(../blocks/header/header.css);
+@import url(../blocks/page/__container/page__container.css);
+@import url(../blocks/profile/profile.css);
+@import url(../blocks/profile/__info/profile__info.css);
+@import url(../blocks/profile/__avatar/profile__avatar.css);
+@import url(../blocks/profile/__name-block/profile__name-block.css);
+@import url(../blocks/profile/__user-edit/profile__user-edit.css);
+@import url(../blocks/profile/__user/profile__user.css);
+@import url(../blocks/profile/__user-edit-button/profile__user-edit-button.css);
+@import url(../blocks/profile/__status/profile__status.css);
+@import url(../blocks/profile/__photo-edit/profile__photo-edit.css);
+@import url(../blocks/elements/elenents.css);
+@import url(../blocks/elements/__card/elements__card.css);
+@import url(../blocks/elements/__photo/elements__photo.css);
+@import url(../blocks/elements/__signature-block/elements__signature-block.css);
+@import url(../blocks/elements/__signature/elements__signature.css);
+@import url(../blocks/elements/__like/elements__like.css);
+@import url(../blocks/footer/footer.css);
+
+.popup__close {
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    background-image: url(/images/Close\ Icon.svg);
+    background-repeat: no-repeat;
+}
+
+.popup__close:hover {
+    cursor: pointer;
+    opacity: .6;
+}
+
+.elements__like {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(0 0 0 0);
+}
+
+.visible {
+    display: inline-block; 
+    vertical-align: middle;
+    width: 22px;
+    height: 19px;
+    background-image: url(/images/elements-like.svg);
+}
+
+.elements__like:checked + .visible {
+    background-image: url(/images/like-checked.svg);
+}
+
+.elements__like:focus + .visible {
+    cursor: pointer;
+}
+
+.elements__like:hover + .visible {
+    cursor: pointer;
+    background-image: url(/images/like-hover.svg);
+}
+
+.elements__like:checked:hover + .visible {
+    background-image: url(/images/like-checked.svg);
+}
+
+
+
+
+
+
