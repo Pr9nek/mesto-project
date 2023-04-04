@@ -14,3 +14,16 @@
     opacity: 0.6;
     cursor: pointer;
 }
+
+@media screen and (max-width: 900px)  {
+    .profile__photo-edit {
+        width: 186px;
+    }
+}
+
+@media screen and (max-width: 606px)  {
+    .profile__photo-edit {
+        min-width: 282px;
+        margin-top: 36px;
+    }
+}

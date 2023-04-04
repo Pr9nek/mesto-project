@@ -1,0 +1,20 @@
+.elements__visible {
+    display: inline-block; 
+    vertical-align: middle;
+    width: 22px;
+    height: 19px;
+    background-image: url(/images/elements-like.svg);
+}
+
+.elements__like:checked + .elements__visible {
+    background-image: url(/images/like-checked.svg);
+}
+
+.elements__like:hover + .elements__visible {
+    cursor: pointer;
+    background-image: url(/images/like-hover.svg);
+}
+
+.elements__like:checked:hover + .elements__visible {
+    background-image: url(/images/like-checked.svg);
+}

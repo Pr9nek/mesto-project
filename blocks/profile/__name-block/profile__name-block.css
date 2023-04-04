@@ -3,3 +3,10 @@
     gap: 16px;
     flex-direction: column;
 }
+
+@media screen and (max-width: 606px)  {
+    .profile__name-block {
+        gap: 14px;
+        align-items: center;
+    }
+}
