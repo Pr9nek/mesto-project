@@ -19,3 +19,11 @@
     .form__button[type="submit"]  {
         background-color: #000;
 }
+
+@media screen and (max-width: 767px) {
+    .form__button {
+        font-size: 14px;
+        line-height: 17px;
+        height: 46px;
+    }
+}

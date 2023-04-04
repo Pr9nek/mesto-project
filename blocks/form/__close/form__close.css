@@ -1,4 +1,4 @@
-.popup__close {
+.form__close {
     width: 32px;
     height: 32px;
     position: absolute;
@@ -8,7 +8,17 @@
     background-repeat: no-repeat;
 }
 
-.popup__close:hover {
+.form__close:hover {
     cursor: pointer;
     opacity: .6;
+}
+
+@media screen and (max-width: 380px) {
+    .form__close {
+        width: 20px;
+        height: 20px;
+        background-size: cover;
+        top: -36px;
+        right: 0px;
+    }
 }

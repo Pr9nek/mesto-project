@@ -1,5 +1,7 @@
 .form__name {
     padding: 0;
+    max-height: 27px;
+    padding-bottom: 13px;
     border: 0;
     box-sizing: border-box;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
