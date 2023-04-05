@@ -1,20 +1,13 @@
 .elements__like {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(0 0 0 0);
+    border: none;
+    width: 22px;
+    height: 19px;
+    background: url(../../../images/elements-like.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
-.elements__like:checked + .elements__visible {
-    background-image: url(../../../images/like-checked.svg);
-}
-
-.elements__like:hover + .elements__visible {
+.elements__like:hover {
+    opacity: 0.5;
     cursor: pointer;
-    background-image: url(../../../images/like-hover.svg);
-}
-
-.elements__like:checked:hover + .elements__visible {
-    background-image: url(../../../images/like-checked.svg);
 }

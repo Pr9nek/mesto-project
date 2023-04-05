@@ -6,4 +6,23 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    max-width: 192px;
+}
+
+@media screen and (max-width: 1023px) {
+    .elements__signature {
+        max-width: 100%;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .elements__signature {
+        max-width: 90%;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .elements__signature {
+        max-width: 192px;
+    }
 }
