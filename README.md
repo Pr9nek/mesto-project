@@ -20,7 +20,7 @@ Google, Yandex и Mozilla firefox.
 
 **Ссылка на GitHub проекта**
 
-* [Ссылка на GitHub проекта](https://pr9nek.github.io/russian-travel/)
+* [Ссылка на GitHub проекта](https://pr9nek.github.io/mesto-project/)
 
 **Технологии**
 
