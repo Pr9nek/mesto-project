@@ -3,6 +3,7 @@
 @import url(../blocks/page/page.css);
 @import url(../blocks/popup/popup.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
+@import url(../blocks/popup/__close/popup__close.css);
 @import url(../blocks/popup/__container/popup__container.css);
 @import url(../blocks/form/form.css);
 @import url(../blocks/form/__title/form__title.css);
@@ -10,7 +11,6 @@
 @import url(../blocks/form/__name/form__name.css);
 @import url(../blocks/form/__status/form__status.css);
 @import url(../blocks/form/__save/form__save.css);
-@import url(../blocks/form/__close/form__close.css);
 @import url(../blocks/form/__button/form__button.css);
 @import url(../blocks/header/header.css);
 @import url(../blocks/header/__logo/header__logo.css);
