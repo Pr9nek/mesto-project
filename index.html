@@ -8,23 +8,8 @@
     <title>Mesto-project</title>
 </head>
 <body class="page">
-    <div class="popup popup_opened">
-        <div class="popup__container">
-            <div class="popup__close"></div>
-            <form class="form">
-                <h2 class="form__title">Редактировать профиль</h2>
-                <fieldset class="form__user">
-                        <input class="form__name" type="text" name="user-name" id="user-name" value="Жак-Ив Кусто">
-                        <input class="form__status" type="text" name="user-status" id="user-status" value="Исследователь океана">
-                </fieldset>
-                <fieldset class="form__save">
-                    <input class="form__button" type="submit" value="Сохранить">
-                </fieldset>
-            </form>
-        </div>
-    </div>
     <header class="header page__container">
-        <img class="header__logo" src="./images/header-logo.png" alt="Логотип проекта.">
+        <img class="header__logo" src="./images/header-logo.svg" alt="Логотип проекта.">
     </header>
     <main> 
         <section class="profile page__container">
@@ -33,12 +18,12 @@
                 <div class="profile__name-block">
                     <div class="profile__user-edit">
                         <h1 class="profile__user">Жак-Ив Кусто</h1>
-                        <div class="profile__user-edit-button"></div>
+                        <button class="profile__user-edit-button" type="button"></button>
                     </div>
                     <p class="profile__status">Исследователь океана</p>
                 </div>
             </div>
-            <div class="profile__photo-edit"></div>
+            <button class="profile__photo-edit" type="button"></button>
         </section>
 
         <section class="elements page__container">
@@ -46,7 +31,7 @@
                 <img class="elements__photo" src="./images/Item-1-kirill-pershin-1088404-unsplash.jpeg" alt="Руины старого дома на горе.">
                 <div class="elements__signature-block">
                     <h2 class="elements__signature">Карачаевск</h2>
-                    <button type="button" class="elements__like elements__like_active"></button>
+                    <button type="button" class="elements__like"></button>
                 </div>
             </div>
             <div class="elements__card">
@@ -87,7 +72,20 @@
         </section>
     </main>
     <footer class="footer page__container">
-        <img class="footer__logo" src="./images/Footer-logo.png" alt="Логотип проекта">
+        <p class="footer__logo">© 2020 Mesto Russia</p> 
     </footer>
+    <div class="popup">
+        <div class="popup__container">
+            <button class="popup__close" type="button"></button>
+            <form class="form" name="user">
+                <h2 class="form__title">Редактировать профиль</h2>
+                <fieldset class="form__user">
+                        <input class="form__name" type="text" name="user-name" id="user_mod_name" value="Жак-Ив Кусто">
+                        <input class="form__name" type="text" name="user-name" id="user_mod_status" value="Исследователь океана">
+                </fieldset>
+                <button class="form__button" type="button">Сохранить</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

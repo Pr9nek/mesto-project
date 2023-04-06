@@ -3,6 +3,7 @@
     border: 0;
     display: flex;
     flex-direction: column;
+    gap: 30px;
     padding-left: 36px;
     padding-right: 36px;
 }

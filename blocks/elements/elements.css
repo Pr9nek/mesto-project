@@ -22,5 +22,6 @@
     .elements {
         min-width: 282px;
         grid-template-columns: 100%;
+        padding-top: 38px;
     }
 }

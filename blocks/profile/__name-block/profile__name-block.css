@@ -6,7 +6,7 @@
 
 @media screen and (max-width: 606px)  {
     .profile__name-block {
-        gap: 14px;
+        gap: 7px;
         align-items: center;
     }
 }

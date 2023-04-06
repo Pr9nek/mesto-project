@@ -3,8 +3,8 @@
     height: 50px;
     border: 2px solid white;
     border-radius: 2px;
-    background: black;
-    background-image: url(../../../images/profile__photo-edit.png);
+    background: transparent;
+    background-image: url(../../../images/profile__photo-edit.svg);
     background-repeat:no-repeat;
     background-position: center;
     box-sizing: border-box;
@@ -24,6 +24,7 @@
 @media screen and (max-width: 606px)  {
     .profile__photo-edit {
         min-width: 282px;
-        margin-top: 36px;
+        margin-top: 32px;
+        background-size: 16px;
     }
 }
