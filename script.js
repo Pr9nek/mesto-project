@@ -60,6 +60,12 @@ function formCardSubmitHandler (evt) {
 
   elements.prepend(cardElement);
 
+  const likeButton = cardElement.querySelector('.elements__like');
+
+  likeButton.addEventListener('click', function(evt) {
+    evt.target.classList.toggle('elements__like_active');
+  });
+  
   togglePopup(popupCard);
 }
 
@@ -103,6 +109,12 @@ let initialCards = [
         
         cardPhoto.src = initialCards[i].link;
         cardSignature.textContent = initialCards[i].name;
+
+        const likeButton = cardElement.querySelector('.elements__like');
+
+        likeButton.addEventListener('click', function(evt) {
+          evt.target.classList.toggle('elements__like_active');
+        });
 
         elements.append(cardElement);
     }
