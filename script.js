@@ -65,7 +65,14 @@ function formCardSubmitHandler (evt) {
   likeButton.addEventListener('click', function(evt) {
     evt.target.classList.toggle('elements__like_active');
   });
-  
+
+  const trashButton = cardElement.querySelector('.elements__del');
+
+  trashButton.addEventListener('click', function(evt) {
+  const cardToTrash = trashButton.closest('.elements__card');
+  cardToTrash.remove();
+  });
+
   togglePopup(popupCard);
 }
 
@@ -113,8 +120,15 @@ let initialCards = [
         const likeButton = cardElement.querySelector('.elements__like');
 
         likeButton.addEventListener('click', function(evt) {
-          evt.target.classList.toggle('elements__like_active');
+          evt.target.classList.toggle('elements__like_active')
         });
 
+        const trashButton = cardElement.querySelector('.elements__del');
+
+        trashButton.addEventListener('click', function(evt) {
+        const cardToTrash = trashButton.closest('.elements__card');
+        cardToTrash.remove();
+        });
+        
         elements.append(cardElement);
-    }
+    };

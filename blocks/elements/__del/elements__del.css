@@ -1,0 +1,12 @@
+.elements__del {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    z-index: 1;
+    border: none;
+    width: 18px;
+    height: 19px;
+    background: url(../../../images/Elements-Trash.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
