@@ -26,50 +26,18 @@
             <button class="profile__photo-edit" type="button"></button>
         </section>
 
-        <section class="elements page__container">
-            <div class="elements__card">
-                <img class="elements__photo" src="./images/Item-1-kirill-pershin-1088404-unsplash.jpeg" alt="Руины старого дома на горе.">
-                <div class="elements__signature-block">
-                    <h2 class="elements__signature">Карачаевск</h2>
-                    <button type="button" class="elements__like"></button>
-                </div>
-            </div>
-            <div class="elements__card">
-                <img class="elements__photo" src="./images/item-2-kirill-pershin-1404681-unsplash.png" alt="Гора Эльбрус.">
-                <div class="elements__signature-block">
-                    <h2 class="elements__signature">Гора Эльбрус</h2>
-                    <button type="button" class="elements__like"></button>
-                </div>
-            </div>
-            <div class="elements__card">
-                <img class="elements__photo" src="./images/item-3-kirill-pershin-1556355-unsplash.png" alt="Вид на снежный горный пик.">
-                <div class="elements__signature-block">
-                    <h2 class="elements__signature">Домбай</h2>
-                    <button type="button" class="elements__like"></button>
-                </div>
-            </div>
-            <div class="elements__card">
-                <img class="elements__photo" src="./images/item-4-kirill-pershin-1404681-unsplash.png" alt="Гора Эльбрус.">
-                <div class="elements__signature-block">
-                    <h2 class="elements__signature">Гора Эльбрус</h2>
-                    <button type="button" class="elements__like"></button>
-                </div>
-            </div>
-            <div class="elements__card">
-                <img class="elements__photo" src="./images/item-5-kirill-pershin-1556355-unsplash.png" alt="Вид на снежный горный пик.">
-                <div class="elements__signature-block">
-                    <h2 class="elements__signature">Домбай</h2>
-                    <button type="button" class="elements__like"></button>
-                </div>
-            </div>
-            <div class="elements__card">
-                <img class="elements__photo" src="./images/Item-1-kirill-pershin-1088404-unsplash.jpeg" alt="Руины старого дома на горе">
-                <div class="elements__signature-block">
-                    <h2 class="elements__signature">Карачаево-Черкесия</h2>
-                    <button type="button" class="elements__like"></button>
-                </div>
-            </div>
-        </section>
+            <section class="elements page__container">
+                <template id="card">
+                    <div class="elements__card">
+                        <img class="elements__photo">
+                        <div class="elements__signature-block">
+                            <h2 class="elements__signature"></h2>
+                            <button type="button" class="elements__like"></button>
+                        </div>
+                    </div>
+                </template>
+            </section>
+
     </main>
     <footer class="footer page__container">
         <p class="footer__logo">© 2020 Mesto Russia</p> 
@@ -87,6 +55,19 @@
             </form>
         </div>
     </div>
+    <!-- <div class="popup popup_cards">
+        <div class="popup__container">
+            <button class="popup__close" type="button"></button>
+            <form class="form" name="card">
+                <h2 class="form__title">Редактировать профиль</h2>
+                <fieldset class="form__user">
+                        <input class="form__name" type="text" name="card-name" id="card_mod_name" value="">
+                        <input class="form__name" type="text" name="card-link" id="card_mod_link" value="">
+                </fieldset>
+                <button class="form__button" type="submit">Создать</button>
+            </form>
+        </div>
+    </div> -->
     <script src="/script.js"></script>
 </body>
 </html>
