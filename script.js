@@ -3,20 +3,32 @@ function togglePopup(popupElement) {
 }
 
 const popupInfoButton = document.querySelector('.profile__user-edit-button');
-const popup = document.querySelector('.popup');
-const popupCloseButton = document.querySelector('.popup__close');
+const popupInfo = document.querySelector('.popup');
+const popupInfoCloseButton = document.querySelector('.popup__close');
+
+const popupCardButton = document.querySelector('.profile__photo-edit');
+const popupCard = document.querySelector('.popup_cards');
+const popupCardCloseButton = document.querySelector('.popup__close_cards');
 
 popupInfoButton.addEventListener('click', function () {
-    togglePopup(popup);
+    togglePopup(popupInfo);
 });
 
-popupCloseButton.addEventListener('click', function () {
-    togglePopup(popup);
+popupCardButton.addEventListener('click', function () {
+    togglePopup(popupCard);
 });
 
-const formElement = document.querySelector('.form');
-const nameInput = document.querySelector('#user_mod_name');
-const statusInput = document.querySelector('#user_mod_status');
+popupInfoCloseButton.addEventListener('click', function () {
+    togglePopup(popupInfo);
+});
+
+popupCardCloseButton.addEventListener('click', function () {
+    togglePopup(popupCard);
+});
+
+const formInfoElement = document.querySelector('.form');
+const nameInfoInput = document.querySelector('#user_mod_name');
+const statusInfoInput = document.querySelector('#user_mod_status');
 
 const user = document.querySelector('.profile__user');
 const status = document.querySelector('.profile__status');
@@ -24,12 +36,34 @@ const status = document.querySelector('.profile__status');
 function formSubmitHandler (evt) {
     evt.preventDefault(); 
     
-    user.textContent = nameInput.value;
-    status.textContent = statusInput.value;
-    togglePopup(popup);
+    user.textContent = nameInfoInput.value;
+    status.textContent = statusInfoInput.value;
+    togglePopup(popupInfo);
 }
 
-formElement.addEventListener('submit', formSubmitHandler);
+formInfoElement.addEventListener('submit', formSubmitHandler);
+
+const formCardElement = popupCard.querySelector('.form_cards');
+const nameCardInput = document.querySelector('#card_mod_name');
+const linkCardInput = document.querySelector('#card_mod_link');
+
+function formCardSubmitHandler (evt) {
+  evt.preventDefault(); 
+  
+  const cardElement = cardTemplate.querySelector('.elements__card').cloneNode(true);
+
+  let cardPhoto = cardElement.querySelector('.elements__photo');
+  let cardSignature = cardElement.querySelector('.elements__signature');
+  
+  cardPhoto.src = linkCardInput.value;
+  cardSignature.textContent = nameCardInput.value;
+
+  elements.prepend(cardElement);
+
+  togglePopup(popupCard);
+}
+
+formCardElement.addEventListener('submit', formCardSubmitHandler);
 
 let initialCards = [
     {
@@ -57,11 +91,6 @@ let initialCards = [
       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
     }
     ];
-
-    // initialCards = [
-    //     {},
-    //     ...initialCards,
-    // ]
 
     const cardTemplate = document.querySelector('#card').content;
     const elements = document.querySelector('.elements');
