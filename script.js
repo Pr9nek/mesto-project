@@ -69,6 +69,8 @@ function formCardSubmitHandler (evt) {
 
   let cardPhoto = cardElement.querySelector('.elements__photo');
   let cardSignature = cardElement.querySelector('.elements__signature');
+  let openedPhoto = document.querySelector('.popup__photo');
+  
   
   cardPhoto.src = linkCardInput.value;
   cardSignature.textContent = nameCardInput.value;
@@ -77,6 +79,7 @@ function formCardSubmitHandler (evt) {
 
   cardPhoto.addEventListener('click', function() {
     togglePopup(popupPhoto);
+    openedPhoto.src = linkCardInput.value;
   });
 
   const likeButton = cardElement.querySelector('.elements__like');
@@ -132,6 +135,7 @@ let initialCards = [
 
         let cardPhoto = cardElement.querySelector('.elements__photo');
         let cardSignature = cardElement.querySelector('.elements__signature');
+        let openedPhoto = document.querySelector('.popup__photo');
         
         cardPhoto.src = initialCards[i].link;
         cardSignature.textContent = initialCards[i].name;
@@ -151,6 +155,7 @@ let initialCards = [
 
         cardPhoto.addEventListener('click', function() {
           togglePopup(popupPhoto);
+          openedPhoto.src = initialCards[i].link;
         });
         
         elements.append(cardElement);
