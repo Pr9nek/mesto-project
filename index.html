@@ -30,7 +30,7 @@
                 <template id="card">
                     <div class="elements__card">
                         <button type="button" class="elements__del"></button>
-                        <img class="elements__photo">
+                        <img class="elements__photo" alt="Чудесное место">
                         <div class="elements__signature-block">
                             <h2 class="elements__signature"></h2>
                             <button type="button" class="elements__like"></button>
@@ -56,9 +56,9 @@
             </form>
         </div>
     </div>
-    <div class="popup popup_cards">
+    <div class="popup popup_type_cards">
         <div class="popup__container">
-            <button class="popup__close popup__close_cards" type="button"></button>
+            <button class="popup__close popup__close_type_cards" type="button"></button>
             <form class="form form_cards" name="card">
                 <h2 class="form__title">Новое место</h2>
                 <fieldset class="form__user">
@@ -69,6 +69,14 @@
             </form>
         </div>
     </div>
+
+    <div class="popup popup_type_cardopened">
+        <div class="popup__frame">
+            <button class="popup__close popup__close_type_photo" type="button"></button>
+            <img class="popup__photo" alt="Фото в полный расмер">
+        </div>
+    </div>
+
     <script src="/script.js"></script>
 </body>
 </html>

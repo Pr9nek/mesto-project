@@ -7,8 +7,23 @@ const popupInfo = document.querySelector('.popup');
 const popupInfoCloseButton = document.querySelector('.popup__close');
 
 const popupCardButton = document.querySelector('.profile__photo-edit');
-const popupCard = document.querySelector('.popup_cards');
-const popupCardCloseButton = document.querySelector('.popup__close_cards');
+const popupCard = document.querySelector('.popup_type_cards');
+const popupCardCloseButton = document.querySelector('.popup__close_type_cards');
+
+const cardTemplate = document.querySelector('#card').content;
+const cardElement = cardTemplate.querySelector('.elements__card').cloneNode(true);
+const cardPhotoButton = cardElement.querySelector('.elements__photo');
+
+const popupPhoto = document.querySelector('.popup_type_cardopened');
+const popurPhotoCloseButton = document.querySelector('.popup__close_type_photo');
+
+popurPhotoCloseButton.addEventListener('click', function () {
+  togglePopup(popupPhoto);
+});
+
+// cardPhotoButton.addEventListener('click', function() {
+//   togglePopup(popupPhoto);
+// });
 
 popupInfoButton.addEventListener('click', function () {
     togglePopup(popupInfo);
@@ -60,6 +75,10 @@ function formCardSubmitHandler (evt) {
 
   elements.prepend(cardElement);
 
+  cardPhoto.addEventListener('click', function() {
+    togglePopup(popupPhoto);
+  });
+
   const likeButton = cardElement.querySelector('.elements__like');
 
   likeButton.addEventListener('click', function(evt) {
@@ -105,7 +124,7 @@ let initialCards = [
     }
     ];
 
-    const cardTemplate = document.querySelector('#card').content;
+    // const cardTemplate = document.querySelector('#card').content;
     const elements = document.querySelector('.elements');
 
     for (let i = 0; i < initialCards.length; i++) {
@@ -128,6 +147,10 @@ let initialCards = [
         trashButton.addEventListener('click', function(evt) {
         const cardToTrash = trashButton.closest('.elements__card');
         cardToTrash.remove();
+        });
+
+        cardPhoto.addEventListener('click', function() {
+          togglePopup(popupPhoto);
         });
         
         elements.append(cardElement);
