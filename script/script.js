@@ -24,7 +24,7 @@ const elements = document.querySelector('.elements');
 const openedPhoto = document.querySelector('.popup__photo');
 const popupSign = document.querySelector('.popup__sign');
 
-let initialCards = [
+const initialCards = [
   {
     name: 'Архыз',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -68,8 +68,8 @@ function createCard(item) {
   });
 
   trashButton.addEventListener('click', function() {
-    cardToTrash.remove();
-  });
+    cardToTrash.remove(); 
+    });
 
   cardPhoto.addEventListener('click', function() {
     openPopup(popupPhoto);
@@ -120,15 +120,12 @@ function handleProfileFormSubmit (evt) {
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
 
-  initialCards = [
-    {
-      name: nameCardInput.value,
-      link: linkCardInput.value
-    },
-    ...initialCards,
-  ];
-  
-  elements.prepend(createCard(initialCards[0]));
+  const item = {
+    name: nameCardInput.value,
+    link: linkCardInput.value,
+  };
+  elements.prepend(createCard(item));
+
   evt.target.reset();
   closePopup(popupCard);
 }
