@@ -93,6 +93,14 @@ popups.forEach((popup) => {
   });
 });
 
+document.addEventListener('keyup', function(evt) {
+  console.log(evt);
+  if (evt.key === 'Escape') {
+    const popup = document.querySelector('.popup_opened');
+    closePopup(popup);
+  }
+});
+
 popupInfoButton.addEventListener('click', function() {
     openPopup(popupInfo);
 });
