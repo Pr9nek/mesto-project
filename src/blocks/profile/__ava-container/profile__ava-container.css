@@ -1,0 +1,26 @@
+.profile__ava-container {
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+.profile__ava-container::after {
+    content: url(../../../images/tinyVector-Avatar.png);
+    visibility: hidden;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.profile__ava-container:hover::after {
+    visibility: visible;
+    cursor: pointer;
+}  

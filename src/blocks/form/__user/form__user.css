@@ -1,0 +1,16 @@
+.form__user {
+    padding: 0;
+    border: 0;
+    display: flex;
+    flex-direction: column;
+    /* gap: 30px; */
+    padding-left: 36px;
+    padding-right: 36px;
+}
+
+@media screen and (max-width: 767px) {
+    .form__user {
+        padding-left: 22px;
+        padding-right: 22px;
+    }
+}
