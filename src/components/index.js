@@ -76,6 +76,9 @@ function handleProfileFormSubmit(evt) {
         evt.target.reset();
         closePopup(popupInfo);
         submitButton.textContent = "Сохранить";
+      })
+      .catch((err) => {
+        console.log(err);
       });  
 }
 
@@ -89,7 +92,10 @@ function handleAvatarFormSubmit(evt) {
       evt.target.reset();
       closePopup(popupAvatar);
       submitButton.textContent = "Сохранить";
-    });
+    })
+    .catch((err) => {
+      console.log(err);
+    });  
 }
 
 function handleCardFormSubmit(evt) {
@@ -107,7 +113,10 @@ function handleCardFormSubmit(evt) {
     evt.target.reset();
     closePopup(popupCard);
     submitButton.textContent = "Сохранить";
-  });
+  })
+  .catch((err) => {
+    console.log(err);
+  });  
 };    
 
 enableValidation({

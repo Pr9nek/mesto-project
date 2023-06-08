@@ -3,13 +3,13 @@ const formList = Array.from(document.querySelectorAll(formConfig.formSelector));
 
 formList.forEach((formElement) => {
     formElement.addEventListener('submit', function (evt) {
-    evt.preventDefault();
+        evt.preventDefault();
     });
 
     const fieldsetList = Array.from(formElement.querySelectorAll('fieldset'));
     
     fieldsetList.forEach((fieldset) => {
-    setEventListeners(fieldset, formConfig);
+        setEventListeners(fieldset, formConfig);
     });
 });
 }
