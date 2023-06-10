@@ -2,7 +2,7 @@ import '../pages/index.css';
 import { getUser, getInitialCards, createCard as postCard, setAvatar, setProfile } from '../api';
 import { enableValidation } from './validate';
 import { createCard } from './card';
-import { closePopup, openPopup, handlePopupCloseClick, handlePopupEscapeKeyup } from './modal';
+import { closePopup, openPopup, handlePopupCloseClick } from './modal';
 
 const popupInfoButton = document.querySelector('.profile__user-edit-button');
 const popupInfo = document.querySelector('.profile-popup');
@@ -43,10 +43,12 @@ function getUserData(data){
   avatar.src = data.avatar;
   user.textContent = data.name;
   status.textContent = data.about;
+  nameInfoInput.value = data.name;
+  statusInfoInput.value = data.about;
+  
 }
 
 handlePopupCloseClick();
-handlePopupEscapeKeyup();
 
 popupInfoButton.addEventListener('click', function() {
     openPopup(popupInfo);
@@ -64,7 +66,6 @@ formInfoElement.addEventListener('submit', handleProfileFormSubmit);
 formCardElement.addEventListener('submit', handleCardFormSubmit);
 formAvatarElement.addEventListener('submit', handleAvatarFormSubmit);
 
-
 function handleProfileFormSubmit(evt) {
     evt.preventDefault(); 
     const submitButton = evt.target.querySelector('.form__button');
@@ -73,9 +74,11 @@ function handleProfileFormSubmit(evt) {
       .then((data) => {
         user.textContent = data.name;
         status.textContent = data.about;
-        evt.target.reset();
+        // evt.target.reset();
         closePopup(popupInfo);
         submitButton.textContent = "Сохранить";
+        nameInfoInput.value = user.textContent;
+        statusInfoInput.value = status.textContent;
       })
       .catch((err) => {
         console.log(err);
@@ -124,6 +127,6 @@ enableValidation({
   inputSelector: '.form__input',
   submitButtonSelector: '.form__button',
   inactiveButtonClass: 'form__button_disabled',
-  inputErrorClass: 'form__input_type_error',
+  inputErrorClass: 'form__input_type_error'
 });
 
