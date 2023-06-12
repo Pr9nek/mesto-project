@@ -6,12 +6,15 @@ import {
 import {
     openPopup
 } from '../components/modal';
+import {
+    userId
+} from '.';
 
 const openedPhoto = document.querySelector('.popup__photo');
 const popupSign = document.querySelector('.popup__sign');
 const cardTemplate = document.querySelector('#card').content;
 const popupPhoto = document.querySelector('.photo-popup');
-const myId = "c284fc2d348c95481b25c574";
+// const myId = "c284fc2d348c95481b25c574";
 const aktiveLikeClass = 'elements__like_active';
 
 export function createCard(item) {
@@ -28,26 +31,32 @@ export function createCard(item) {
     cardSignature.textContent = item.name;
     likeCounter.textContent = item.likes.length;
 
-    if (item.owner._id !== myId) {
+    if (item.owner._id !== userId) {
         trashButton.remove();
     } else {
         trashButton.addEventListener('click', function () {
             deleteCard(item._id)
-                .then(() => cardToTrash.remove());
+                .then(() => cardToTrash.remove())
+                .catch((err) => {
+                    console.log(err); // выводим ошибку в консоль
+                });
         });
     }
     // проставляем активный лайк, если там есть наш
-    if (item.likes.length > 0 && item.likes.find(like => like._id === myId)) {
+    if (item.likes.length > 0 && item.likes.find(like => like._id === userId)) {
         likeButton.classList.add(aktiveLikeClass);
     }
 
     likeButton.addEventListener('click', function (evt) {
-        if (item.likes.length === 0 || !item.likes.find(like => like._id === myId)) {
+        if (item.likes.length === 0 || !item.likes.find(like => like._id === userId)) {
             setLike(item._id)
                 .then((card) => {
                     evt.target.classList.add(aktiveLikeClass);
                     likeCounter.textContent = card.likes.length;
                     item = JSON.parse(JSON.stringify(card));
+                })
+                .catch((err) => {
+                    console.log(err); // выводим ошибку в консоль
                 });
         } else {
             deleteLike(item._id)
@@ -55,6 +64,9 @@ export function createCard(item) {
                     evt.target.classList.remove(aktiveLikeClass);
                     likeCounter.textContent = card.likes.length;
                     item = JSON.parse(JSON.stringify(card));
+                })
+                .catch((err) => {
+                    console.log(err); // выводим ошибку в консоль
                 });
         }
     });

@@ -1,8 +1,25 @@
 import '../pages/index.css';
-import { getUser, getInitialCards, createCard as postCard, setAvatar, setProfile } from '../api';
-import { enableValidation } from './validate';
-import { createCard } from './card';
-import { closePopup, openPopup, handlePopupCloseClick } from './modal';
+import {
+  getUser,
+  getInitialCards,
+  createCard as postCard,
+  setAvatar,
+  setProfile
+} from '../api';
+import {
+  enableValidation
+} from './validate';
+import {
+  createCard
+} from './card';
+import {
+  closePopup,
+  openPopup,
+  handlePopupCloseClick
+} from './modal';
+import {
+  handleSubmit
+} from '../components/utils';
 
 const popupInfoButton = document.querySelector('.profile__user-edit-button');
 const popupInfo = document.querySelector('.profile-popup');
@@ -22,44 +39,42 @@ const formCardElement = document.forms['card'];
 const nameCardInput = document.querySelector('#card_mod_name');
 const linkCardInput = document.querySelector('#card_mod_link');
 const elements = document.querySelector('.elements');
+export let userId;
 
-getUser()
-  .then((data) => getUserData(data))
-  .catch((err) => {
-    console.log(err); // выводим ошибку в консоль
-  }); 
-
-getInitialCards()
-  .then((cards) => {
-    for (let i = 0; i < cards.length; i++) {
-      elements.append(createCard(cards[i]));
-    };
+Promise.all([getUser(), getInitialCards()])
+  .then(([user, cards]) => {
+    setUserData(user);
+    getInitialCards(cards)
+      .then((cards) => {
+        cards.forEach(card => elements.append(createCard(card)))
+      });
   })
-  .catch((err) => {
+  .catch(err => {
     console.log(err); // выводим ошибку в консоль
-  }); 
+  });
 
-function getUserData(data){
+
+function setUserData(data) {
   avatar.src = data.avatar;
   user.textContent = data.name;
   status.textContent = data.about;
   nameInfoInput.value = data.name;
   statusInfoInput.value = data.about;
-  
+  userId = data._id;
 }
 
 handlePopupCloseClick();
 
-popupInfoButton.addEventListener('click', function() {
-    openPopup(popupInfo);
+popupInfoButton.addEventListener('click', function () {
+  openPopup(popupInfo);
 });
 
-popupCardButton.addEventListener('click', function() {
-    openPopup(popupCard);
+popupCardButton.addEventListener('click', function () {
+  openPopup(popupCard);
 });
 
-popupButtonAvatar.addEventListener('click', function(){
-    openPopup(popupAvatar);
+popupButtonAvatar.addEventListener('click', function () {
+  openPopup(popupAvatar);
 });
 
 formInfoElement.addEventListener('submit', handleProfileFormSubmit);
@@ -67,60 +82,45 @@ formCardElement.addEventListener('submit', handleCardFormSubmit);
 formAvatarElement.addEventListener('submit', handleAvatarFormSubmit);
 
 function handleProfileFormSubmit(evt) {
-    evt.preventDefault(); 
-    const submitButton = evt.target.querySelector('.form__button');
-    submitButton.textContent = "Сохранение...";
-    setProfile(nameInfoInput.value, statusInfoInput.value)
-      .then((data) => {
-        user.textContent = data.name;
-        status.textContent = data.about;
-        // evt.target.reset();
-        closePopup(popupInfo);
-        submitButton.textContent = "Сохранить";
-        nameInfoInput.value = user.textContent;
-        statusInfoInput.value = status.textContent;
-      })
-      .catch((err) => {
-        console.log(err);
-      });  
+  function makeRequest() {
+    // return позволяет потом дальше продолжать цепочку `then, catch, finally`
+    return setProfile(nameInfoInput.value, statusInfoInput.value).then((data) => {
+      user.textContent = data.name;
+      status.textContent = data.about;
+      closePopup(popupInfo);
+    });
+  }
+  // вызываем универсальную функцию, передавая в нее запрос, событие и текст изменения кнопки (если нужен другой, а не `"Сохранение..."`)
+  handleSubmit(makeRequest, evt);
+  nameInfoInput.value = user.textContent;
+  statusInfoInput.value = status.textContent;
 }
 
+
 function handleAvatarFormSubmit(evt) {
-  evt.preventDefault(); 
-  const submitButton = evt.target.querySelector('.form__button');
-  submitButton.textContent = "Сохранение...";
-  setAvatar(avatarLinkInput.value)
-    .then((user) => {
+  function makeRequest() {
+    return setAvatar(avatarLinkInput.value).then((user) => {
       avatar.src = user.avatar;
       evt.target.reset();
       closePopup(popupAvatar);
-      submitButton.textContent = "Сохранить";
-    })
-    .catch((err) => {
-      console.log(err);
-    });  
+    });
+  }
+  handleSubmit(makeRequest, evt);
 }
 
 function handleCardFormSubmit(evt) {
-  evt.preventDefault();
-  const submitButton = evt.target.querySelector('.form__button');
-  submitButton.textContent = "Сохранение...";
   const item = {
     name: nameCardInput.value,
     link: linkCardInput.value,
   };
-  
-  postCard(item)
-  .then(res => {
-    elements.prepend(createCard(res));
-    evt.target.reset();
-    closePopup(popupCard);
-    submitButton.textContent = "Сохранить";
-  })
-  .catch((err) => {
-    console.log(err);
-  });  
-};    
+  function makeRequest() {
+    return postCard(item).then(res => {
+      elements.prepend(createCard(res));
+      closePopup(popupCard);
+    });
+  }
+  handleSubmit(makeRequest, evt);
+};
 
 enableValidation({
   formSelector: '.form',
@@ -129,4 +129,3 @@ enableValidation({
   inactiveButtonClass: 'form__button_disabled',
   inputErrorClass: 'form__input_type_error'
 });
-

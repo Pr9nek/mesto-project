@@ -6,7 +6,7 @@ export const enableValidation = (formConfig) => {
             evt.preventDefault();
         });
 
-            setEventListeners(formElement, formConfig);
+        setEventListeners(formElement, formConfig);
     });
 }
 
@@ -50,10 +50,9 @@ function hasInvalidInput(inputList) {
 //Управляем кнопкой submit
 function toggleButtonState(inputList, buttonElement, inactiveButtonClass) {
     if (hasInvalidInput(inputList)) {
-        buttonElement.setAttribute('disabled', true);
-        buttonElement.classList.add(inactiveButtonClass);
+        disableButton(buttonElement, inactiveButtonClass)
     } else {
-        buttonElement.removeAttribute('disabled'); 
+        buttonElement.removeAttribute('disabled');
         buttonElement.classList.remove(inactiveButtonClass);
     }
 }
@@ -62,6 +61,13 @@ function toggleButtonState(inputList, buttonElement, inactiveButtonClass) {
 function setEventListeners(formElement, formConfig) {
     const inputList = Array.from(formElement.querySelectorAll(formConfig.inputSelector));
     const buttonElement = formElement.querySelector(formConfig.submitButtonSelector);
+
+    // деактивируем кнопку при 1й загрузке сайта
+    toggleButtonState(inputList, buttonElement, formConfig.inactiveButtonClass);
+
+    formElement.addEventListener('reset', () => {
+        disableButton(buttonElement, formConfig.inactiveButtonClass);
+    });
 
     // чтобы проверить состояние кнопки в самом начале
     toggleButtonState(inputList, buttonElement, formConfig.inactiveButtonClass);
@@ -74,3 +80,8 @@ function setEventListeners(formElement, formConfig) {
         });
     });
 };
+
+function disableButton(buttonElement, inactiveButtonClass) {
+    buttonElement.setAttribute('disabled', true);
+    buttonElement.classList.add(inactiveButtonClass);
+}
