@@ -2,7 +2,7 @@ import {
     setLike,
     deleteLike,
     deleteCard
-} from '../api';
+} from './api';
 import {
     openPopup
 } from '../components/modal';

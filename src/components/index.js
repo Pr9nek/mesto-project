@@ -5,7 +5,7 @@ import {
   createCard as postCard,
   setAvatar,
   setProfile
-} from '../api';
+} from './api';
 import {
   enableValidation
 } from './validate';
@@ -58,14 +58,14 @@ function setUserData(data) {
   avatar.src = data.avatar;
   user.textContent = data.name;
   status.textContent = data.about;
-  nameInfoInput.value = data.name;
-  statusInfoInput.value = data.about;
   userId = data._id;
 }
 
 handlePopupCloseClick();
 
 popupInfoButton.addEventListener('click', function () {
+  nameInfoInput.value = user.textContent;
+  statusInfoInput.value = status.textContent;
   openPopup(popupInfo);
 });
 
@@ -92,8 +92,6 @@ function handleProfileFormSubmit(evt) {
   }
   // вызываем универсальную функцию, передавая в нее запрос, событие и текст изменения кнопки (если нужен другой, а не `"Сохранение..."`)
   handleSubmit(makeRequest, evt);
-  nameInfoInput.value = user.textContent;
-  statusInfoInput.value = status.textContent;
 }
 
 
@@ -101,7 +99,6 @@ function handleAvatarFormSubmit(evt) {
   function makeRequest() {
     return setAvatar(avatarLinkInput.value).then((user) => {
       avatar.src = user.avatar;
-      evt.target.reset();
       closePopup(popupAvatar);
     });
   }

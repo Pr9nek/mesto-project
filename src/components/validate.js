@@ -69,9 +69,6 @@ function setEventListeners(formElement, formConfig) {
         disableButton(buttonElement, formConfig.inactiveButtonClass);
     });
 
-    // чтобы проверить состояние кнопки в самом начале
-    toggleButtonState(inputList, buttonElement, formConfig.inactiveButtonClass);
-
     inputList.forEach((inputElement) => {
         inputElement.addEventListener('input', function () {
             checkInputValidity(formElement, inputElement, formConfig.inputErrorClass);
