@@ -80,3 +80,38 @@ export function createCard(item) {
 
     return cardElement;
 }
+
+export class Card {
+    constructor(data, selector) {
+        this.link = data.link;
+        this.name = data.name;
+        this.likes = data.likes.length;
+        this.selector = selector;
+    }
+
+    // получаем копию карточки
+    _getElement() {
+        const cardElement = document
+        .querySelector(this.selector)
+        .content
+        .querySelector('.elements__card')
+        .cloneNode(true);
+
+        return cardElement;
+    }
+
+    // наполняем карточку данными
+    generate() {
+        this._element = this._getElement();
+
+        this._element.querySelector('.elements__photo').src = this.link;
+        this._element.querySelector('.elements__photo').alt = this.name;
+        this._element.querySelector('.elements__signature').textContent = this.name;
+
+        //где-то тут добавить лайки
+
+        return this._element;
+    }
+   
+}
+
