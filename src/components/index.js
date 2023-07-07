@@ -1,11 +1,13 @@
+import Api from './api';
+
 import '../pages/index.css';
-import {
-  getUser,
-  getInitialCards,
-  createCard as postCard,
-  setAvatar,
-  setProfile
-} from './api';
+// import {
+//   getUser,
+//   getInitialCards,
+//   createCard as postCard,
+//   setAvatar,
+//   setProfile
+// } from './api';
 import {
   enableValidation
 } from './validate';
@@ -40,6 +42,14 @@ const nameCardInput = document.querySelector('#card_mod_name');
 const linkCardInput = document.querySelector('#card_mod_link');
 const elements = document.querySelector('.elements');
 export let userId;
+
+const api = new Api({
+  baseUrl: 'https://nomoreparties.co/v1/cohort-42',
+  headers: {
+    authorization: 'c56e30dc-2883-4270-a59e-b2f7bae969c6',
+    'Content-Type': 'application/json'
+  }
+}); 
 
 Promise.all([getUser(), getInitialCards()])
   .then(([user, cards]) => {
@@ -93,7 +103,6 @@ function handleProfileFormSubmit(evt) {
   // вызываем универсальную функцию, передавая в нее запрос, событие и текст изменения кнопки (если нужен другой, а не `"Сохранение..."`)
   handleSubmit(makeRequest, evt);
 }
-
 
 function handleAvatarFormSubmit(evt) {
   function makeRequest() {
