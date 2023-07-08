@@ -1,6 +1,6 @@
 export default class Api {
   constructor(options) {
-    this._baseUrl = options.url;
+    this._baseUrl = options.baseUrl;
     this._headers = options.headers;
   }
 
@@ -8,14 +8,14 @@ export default class Api {
     return fetch(`${this._baseUrl}/cards`, {
         headers: this._headers,
       })
-      .then(onResponse);
+      .then(this._onResponse);
   };
 
   getUser() {
     return fetch(`${this._baseUrl}/users/me`, {
         headers: this._headers,
       })
-      .then(onResponse);
+      .then(this._onResponse);
   };
 
   setAvatar(avatar) {
@@ -26,7 +26,7 @@ export default class Api {
           avatar
         })
       })
-      .then(onResponse);
+      .then(this._onResponse);
   };
 
   setProfile(name, about) {
@@ -38,7 +38,7 @@ export default class Api {
           about: about
         })
       })
-      .then(onResponse);
+      .then(this._onResponse);
   };
 
   createCard(card) {
@@ -47,7 +47,7 @@ export default class Api {
         headers: this._headers,
         body: JSON.stringify(card)
       })
-      .then(onResponse);
+      .then(this._onResponse);
   };
 
   deleteCard(id) {
@@ -56,7 +56,7 @@ export default class Api {
         headers: this._headers,
         body: JSON.stringify(card)
       })
-      .then(onResponse);
+      .then(this._onResponse);
   };
 
   setLike(id) {
@@ -64,7 +64,7 @@ export default class Api {
         method: 'PUT',
         headers: this._headers,
       })
-      .then(onResponse);
+      .then(this._onResponse);
   };
 
   deleteLike(id) {
@@ -72,91 +72,11 @@ export default class Api {
         method: 'DELETE',
         headers: this._headers,
       })
-      .then(onResponse);
+      .then(this._onResponse);
   }
 
+  _onResponse(res) {
+    return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+  };
+
 }
-
-
-// const config = {
-//   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-25',
-//   headers: {
-//     authorization: 'c7066d33-af2e-4ab1-9be7-8983d9995740',
-//     'Content-Type': 'application/json'
-//   }
-// };
-
-// function onResponse(res) {
-//   return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
-// };
-
-// export const getUser = () => {
-//   return fetch(`${config.baseUrl}/users/me`, {
-//       headers: config.headers,
-//     })
-//     .then(onResponse);
-// };
-
-// export const setAvatar = (avatar) => {
-//   return fetch(`${config.baseUrl}/users/me/avatar`, {
-//       method: 'PATCH',
-//       headers: config.headers,
-//       body: JSON.stringify({
-//         avatar
-//       })
-//     })
-//     .then(onResponse);
-// };
-
-// export const setProfile = (name, about) => {
-//   return fetch(`${config.baseUrl}/users/me`, {
-//       method: 'PATCH',
-//       headers: config.headers,
-//       body: JSON.stringify({
-//         name: name,
-//         about: about
-//       })
-//     })
-//     .then(onResponse);
-// };
-
-// export const getInitialCards = () => {
-//   return fetch(`${config.baseUrl}/cards`, {
-//       headers: config.headers,
-//     })
-//     .then(onResponse);
-// };
-
-// export const createCard = (card) => {
-//   return fetch(`${config.baseUrl}/cards`, {
-//       method: 'POST',
-//       headers: config.headers,
-//       body: JSON.stringify(card)
-//     })
-//     .then(onResponse);
-// };
-
-// export const deleteCard = (id) => {
-//   return fetch(`${config.baseUrl}/cards/${id}`, {
-//       method: 'DELETE',
-//       headers: config.headers,
-//       body: JSON.stringify(card)
-//     })
-//     .then(onResponse);
-// };
-
-// export const setLike = (id) => {
-//   return fetch(`${config.baseUrl}/cards/likes/${id}`, {
-//       method: 'PUT',
-//       headers: config.headers,
-//     })
-//     .then(onResponse);
-// };
-
-// export const deleteLike = (id) => {
-//   return fetch(`${config.baseUrl}/cards/likes/${id}`, {
-//       method: 'DELETE',
-//       headers: config.headers,
-//     })
-//     .then(onResponse);
-// }

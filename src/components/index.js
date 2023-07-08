@@ -44,9 +44,9 @@ const elements = document.querySelector('.elements');
 export let userId;
 
 const api = new Api({
-  baseUrl: 'https://nomoreparties.co/v1/cohort-42',
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-25',
   headers: {
-    authorization: 'c56e30dc-2883-4270-a59e-b2f7bae969c6',
+    authorization: 'c7066d33-af2e-4ab1-9be7-8983d9995740',
     'Content-Type': 'application/json'
   }
 }); 
