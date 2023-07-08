@@ -7,9 +7,6 @@ import {
   setProfile
 } from './api';
 import {
-  enableValidation
-} from './validate';
-import {
   createCard
 } from './card';
 import {
@@ -20,6 +17,7 @@ import {
 import {
   handleSubmit
 } from '../components/utils';
+import FormValidator from './form-validator';
 
 const popupInfoButton = document.querySelector('.profile__user-edit-button');
 const popupInfo = document.querySelector('.profile-popup');
@@ -119,10 +117,11 @@ function handleCardFormSubmit(evt) {
   handleSubmit(makeRequest, evt);
 };
 
-enableValidation({
-  formSelector: '.form',
+const userFormValidator = new FormValidator({
   inputSelector: '.form__input',
   submitButtonSelector: '.form__button',
   inactiveButtonClass: 'form__button_disabled',
   inputErrorClass: 'form__input_type_error'
-});
+}, document.forms['user']);
+
+userFormValidator.enableValidation();
