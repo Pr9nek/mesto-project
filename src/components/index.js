@@ -1,11 +1,13 @@
+import Api from './api';
+
 import '../pages/index.css';
-import {
-  getUser,
-  getInitialCards,
-  createCard as postCard,
-  setAvatar,
-  setProfile
-} from './api';
+// import {
+//   getUser,
+//   getInitialCards,
+//   createCard as postCard,
+//   setAvatar,
+//   setProfile
+// } from './api';
 import {
   createCard
 } from './card';
@@ -39,18 +41,27 @@ const linkCardInput = document.querySelector('#card_mod_link');
 const elements = document.querySelector('.elements');
 export let userId;
 
-Promise.all([getUser(), getInitialCards()])
-  .then(([user, cards]) => {
-    setUserData(user);
-    getInitialCards(cards)
-      .then((cards) => {
-        cards.forEach(card => elements.append(createCard(card)))
-      });
-  })
-  .catch(err => {
-    console.log(err); // выводим ошибку в консоль
-  });
+const api = new Api({
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-25',
+  headers: {
+    authorization: 'c7066d33-af2e-4ab1-9be7-8983d9995740',
+    'Content-Type': 'application/json'
+  }
+}); 
 
+api.getUser();
+
+// Promise.all([getUser(), getInitialCards()])
+//   .then(([user, cards]) => {
+//     setUserData(user);
+//     getInitialCards(cards)
+//       .then((cards) => {
+//         cards.forEach(card => elements.append(createCard(card)))
+//       });
+//   })
+//   .catch(err => {
+//     console.log(err); // выводим ошибку в консоль
+//   });
 
 function setUserData(data) {
   avatar.src = data.avatar;
@@ -91,7 +102,6 @@ function handleProfileFormSubmit(evt) {
   // вызываем универсальную функцию, передавая в нее запрос, событие и текст изменения кнопки (если нужен другой, а не `"Сохранение..."`)
   handleSubmit(makeRequest, evt);
 }
-
 
 function handleAvatarFormSubmit(evt) {
   function makeRequest() {

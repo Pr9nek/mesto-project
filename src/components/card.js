@@ -1,8 +1,8 @@
-import {
-    setLike,
-    deleteLike,
-    deleteCard
-} from './api';
+// import {
+//     setLike,
+//     deleteLike,
+//     deleteCard
+// } from './api';
 import {
     openPopup
 } from '../components/modal';
