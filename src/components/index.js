@@ -49,18 +49,19 @@ const api = new Api({
   }
 }); 
 
-Promise.all([getUser(), getInitialCards()])
-  .then(([user, cards]) => {
-    setUserData(user);
-    getInitialCards(cards)
-      .then((cards) => {
-        cards.forEach(card => elements.append(createCard(card)))
-      });
-  })
-  .catch(err => {
-    console.log(err); // выводим ошибку в консоль
-  });
+api.getUser();
 
+// Promise.all([getUser(), getInitialCards()])
+//   .then(([user, cards]) => {
+//     setUserData(user);
+//     getInitialCards(cards)
+//       .then((cards) => {
+//         cards.forEach(card => elements.append(createCard(card)))
+//       });
+//   })
+//   .catch(err => {
+//     console.log(err); // выводим ошибку в консоль
+//   });
 
 function setUserData(data) {
   avatar.src = data.avatar;
