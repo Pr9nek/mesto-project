@@ -1,23 +1,9 @@
 import Api from './api';
 import Card from './card';
+import PopupWithImage from './popup-with-image';
 import Section from './section';
 
 import '../pages/index.css';
-// import {
-//   getUser,
-//   getInitialCards,
-//   createCard as postCard,
-//   setAvatar,
-//   setProfile
-// } from './api';
-// import {
-//   createCard
-// } from './card';
-import {
-  closePopup,
-  openPopup,
-  handlePopupCloseClick
-} from './modal';
 import {
   handleSubmit
 } from '../components/utils';
@@ -53,19 +39,6 @@ const api = new Api({
 
 api.getInitialCards()
 .then((cards) => {
-  // cards.forEach((initialCard) => {
-  //   const card = new Card(
-  //     initialCard,
-  //     '#card',
-  //     () => api.setLike(initialCard._id),
-  //     () => api.deleteLike(initialCard._id),
-  //     () => api.deleteCard(initialCard._id)
-  //   );
-    
-  //   // TODO позже будет реализовано с помощью класса Section
-  //   elements.append(card.createCard());
-  // });
- 
   const defaultCardList = new Section({
     data: cards,
     renderer: (initialCard) => {
@@ -74,7 +47,8 @@ api.getInitialCards()
         '#card',
         () => api.setLike(initialCard._id),
         () => api.deleteLike(initialCard._id),
-        () => api.deleteCard(initialCard._id)
+        () => api.deleteCard(initialCard._id),
+        () => popupPhoto.open(initialCard.link, initialCard.name)
       );
       const cardElement = card.createCard();
       defaultCardList.addItem(cardElement);
@@ -86,6 +60,8 @@ api.getInitialCards()
 });
 
 
+const popupPhoto = new PopupWithImage('.photo-popup');
+popupPhoto.setEventListeners();
 
 // Promise.all([getUser(), getInitialCards()])
 //   .then(([user, cards]) => {
@@ -106,7 +82,7 @@ function setUserData(data) {
   userId = data._id;
 }
 
-handlePopupCloseClick();
+// handlePopupCloseClick();
 
 popupInfoButton.addEventListener('click', function () {
   nameInfoInput.value = user.textContent;
@@ -114,9 +90,9 @@ popupInfoButton.addEventListener('click', function () {
   openPopup(popupInfo);
 });
 
-popupCardButton.addEventListener('click', function () {
-  openPopup(popupCard);
-});
+// popupCardButton.addEventListener('click', function () {
+//   openPopup(popupCard);
+// });
 
 popupButtonAvatar.addEventListener('click', function () {
   openPopup(popupAvatar);

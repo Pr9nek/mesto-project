@@ -2,12 +2,13 @@ const activeLikeClass = 'elements__like_active';
 const myId = "c284fc2d348c95481b25c574";
 
 export default class Card {
-    constructor(item, selector, setLike, deleteLike, deleteCard) {
+    constructor(item, selector, setLike, deleteLike, deleteCard, handleCardClick) {
         this._item = item;
         this._selector = selector;
         this._setLike = setLike;
         this._deleteLike = deleteLike;
         this._deleteCard = deleteCard;
+        this._handleCardClick = handleCardClick;
     }
 
     _getElement() {
@@ -33,7 +34,7 @@ export default class Card {
         cardSignature.textContent = this._item.name;
         likeCounter.textContent = this._item.likes.length;
 
-        this._setEventListeners(likeButton, trashButton, likeCounter);
+        this._setEventListeners(likeButton, trashButton, likeCounter, cardPhoto);
     
         if (this._item.owner._id !== myId) {
             trashButton.remove();
@@ -47,7 +48,7 @@ export default class Card {
         return this._element;
     }
 
-    _setEventListeners(likeButton, trashButton, likeCounter) {
+    _setEventListeners(likeButton, trashButton, likeCounter, cardPhoto) {
         trashButton.addEventListener('click', () => {
 			this._deleteCard()
                 .then(() => this._element.remove())
@@ -82,5 +83,7 @@ export default class Card {
                     });
             }
 		});
+
+        cardPhoto.addEventListener('click', () => this._handleCardClick());
 	}
-    }
+}
