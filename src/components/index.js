@@ -1,4 +1,5 @@
 import Api from './api';
+import Card from './card';
 
 import '../pages/index.css';
 // import {
@@ -8,9 +9,9 @@ import '../pages/index.css';
 //   setAvatar,
 //   setProfile
 // } from './api';
-import {
-  createCard
-} from './card';
+// import {
+//   createCard
+// } from './card';
 import {
   closePopup,
   openPopup,
