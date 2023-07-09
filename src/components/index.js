@@ -47,9 +47,23 @@ const api = new Api({
     authorization: 'c7066d33-af2e-4ab1-9be7-8983d9995740',
     'Content-Type': 'application/json'
   }
-}); 
+});
 
-api.getUser();
+api.getInitialCards()
+.then((cards) => {
+  cards.forEach((initialCard) => {
+    const card = new Card(
+      initialCard,
+      '#card',
+      () => api.setLike(initialCard._id),
+      () => api.deleteLike(initialCard._id),
+      () => api.deleteCard(initialCard._id)
+    );
+    
+    // TODO позже будет реализовано с помощью класса Section
+    elements.append(card.createCard());
+  });
+});
 
 // Promise.all([getUser(), getInitialCards()])
 //   .then(([user, cards]) => {
