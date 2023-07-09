@@ -1,5 +1,6 @@
 import Api from './api';
 import Card from './card';
+import Section from './section';
 
 import '../pages/index.css';
 // import {
@@ -52,19 +53,39 @@ const api = new Api({
 
 api.getInitialCards()
 .then((cards) => {
-  cards.forEach((initialCard) => {
-    const card = new Card(
-      initialCard,
-      '#card',
-      () => api.setLike(initialCard._id),
-      () => api.deleteLike(initialCard._id),
-      () => api.deleteCard(initialCard._id)
-    );
+  // cards.forEach((initialCard) => {
+  //   const card = new Card(
+  //     initialCard,
+  //     '#card',
+  //     () => api.setLike(initialCard._id),
+  //     () => api.deleteLike(initialCard._id),
+  //     () => api.deleteCard(initialCard._id)
+  //   );
     
-    // TODO позже будет реализовано с помощью класса Section
-    elements.append(card.createCard());
-  });
+  //   // TODO позже будет реализовано с помощью класса Section
+  //   elements.append(card.createCard());
+  // });
+ 
+  const defaultCardList = new Section({
+    data: cards,
+    renderer: (initialCard) => {
+      const card = new Card(
+        initialCard,
+        '#card',
+        () => api.setLike(initialCard._id),
+        () => api.deleteLike(initialCard._id),
+        () => api.deleteCard(initialCard._id)
+      );
+      const cardElement = card.createCard();
+      defaultCardList.addItem(cardElement);
+    }
+  },
+  elements
+  );
+  defaultCardList.renderItems();
 });
+
+
 
 // Promise.all([getUser(), getInitialCards()])
 //   .then(([user, cards]) => {
