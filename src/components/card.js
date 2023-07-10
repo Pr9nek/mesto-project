@@ -1,86 +1,82 @@
-const activeLikeClass = 'elements__like_active';
-const myId = "c284fc2d348c95481b25c574";
+import {
+    setLike,
+    deleteLike,
+    deleteCard
+} from './api';
+import {
+    openPopup
+} from '../components/modal';
+import {
+    userId
+} from '.';
 
-export default class Card {
-    constructor(item, selector, setLike, deleteLike, deleteCard) {
-        this._item = item;
-        this._selector = selector;
-        this._setLike = setLike;
-        this._deleteLike = deleteLike;
-        this._deleteCard = deleteCard;
-    }
+const openedPhoto = document.querySelector('.popup__photo');
+const popupSign = document.querySelector('.popup__sign');
+const cardTemplate = document.querySelector('#card').content;
+const popupPhoto = document.querySelector('.photo-popup');
+// const myId = "c284fc2d348c95481b25c574";
+const aktiveLikeClass = 'elements__like_active';
 
-    _getElement() {
-        const cardElement = document
-        .querySelector(this._selector)
-        .content
-        .querySelector('.elements__card')
-        .cloneNode(true);
+export function createCard(item) {
+    const cardElement = cardTemplate.querySelector('.elements__card').cloneNode(true);
+    const cardPhoto = cardElement.querySelector('.elements__photo');
+    const cardSignature = cardElement.querySelector('.elements__signature');
+    const likeButton = cardElement.querySelector('.elements__like');
+    const trashButton = cardElement.querySelector('.elements__del');
+    const cardToTrash = trashButton.closest('.elements__card');
+    const likeCounter = cardElement.querySelector('.elements__like-counter');
 
-        return cardElement;
-    }
+    cardPhoto.src = item.link;
+    cardPhoto.alt = item.name;
+    cardSignature.textContent = item.name;
+    likeCounter.textContent = item.likes.length;
 
-    createCard() {
-        this._element = this._getElement();
-        const cardPhoto = this._element.querySelector('.elements__photo');
-        const cardSignature = this._element.querySelector('.elements__signature');
-        const likeButton = this._element.querySelector('.elements__like');
-        const trashButton = this._element.querySelector('.elements__del');
-        const likeCounter = this._element.querySelector('.elements__like-counter');
-    
-        cardPhoto.src = this._item.link;
-        cardPhoto.alt = this._item.name;
-        cardSignature.textContent = this._item.name;
-        likeCounter.textContent = this._item.likes.length;
-
-        this._setEventListeners(likeButton, trashButton, likeCounter);
-    
-        if (this._item.owner._id !== myId) {
-            trashButton.remove();
-        }
-
-        // проставляем активный лайк, если там есть наш
-        if (this._item.likes.length > 0 && this._item.likes.find(like => like._id === myId)) {
-            likeButton.classList.add(activeLikeClass);
-        }
-
-        return this._element;
-    }
-
-    _setEventListeners(likeButton, trashButton, likeCounter) {
-        trashButton.addEventListener('click', () => {
-			this._deleteCard()
-                .then(() => this._element.remove())
+    if (item.owner._id !== userId) {
+        trashButton.remove();
+    } else {
+        trashButton.addEventListener('click', function () {
+            deleteCard(item._id)
+                .then(() => cardToTrash.remove())
                 .catch((err) => {
                     console.log(err); // выводим ошибку в консоль
                 });
-		});
-
-        likeButton.addEventListener('click', (evt) => {
-            if (this._item.likes.length === 0 || !this._item.likes.find(like => like._id === myId)) {
-			    this._setLike()
-                    .then((card) => {
-                        this._item.likes = card.likes;
-                        evt.target.classList.add(activeLikeClass);
-                        likeCounter.textContent = card.likes.length;
-                        item = JSON.parse(JSON.stringify(card));
-                    })
-                    .catch((err) => {
-                        console.log(err); // выводим ошибку в консоль
-                    });
-            }
-            else {
-                this._deleteLike()
-                    .then((card) => {
-                        this._item.likes = card.likes;
-                        evt.target.classList.remove(activeLikeClass);
-                        likeCounter.textContent = card.likes.length;
-                        item = JSON.parse(JSON.stringify(card));
-                    })
-                    .catch((err) => {
-                        console.log(err); // выводим ошибку в консоль
-                    });
-            }
-		});
-	}
+        });
     }
+    // проставляем активный лайк, если там есть наш
+    if (item.likes.length > 0 && item.likes.find(like => like._id === userId)) {
+        likeButton.classList.add(aktiveLikeClass);
+    }
+
+    likeButton.addEventListener('click', function (evt) {
+        if (item.likes.length === 0 || !item.likes.find(like => like._id === userId)) {
+            setLike(item._id)
+                .then((card) => {
+                    evt.target.classList.add(aktiveLikeClass);
+                    likeCounter.textContent = card.likes.length;
+                    item = JSON.parse(JSON.stringify(card));
+                })
+                .catch((err) => {
+                    console.log(err); // выводим ошибку в консоль
+                });
+        } else {
+            deleteLike(item._id)
+                .then((card) => {
+                    evt.target.classList.remove(aktiveLikeClass);
+                    likeCounter.textContent = card.likes.length;
+                    item = JSON.parse(JSON.stringify(card));
+                })
+                .catch((err) => {
+                    console.log(err); // выводим ошибку в консоль
+                });
+        }
+    });
+
+    cardPhoto.addEventListener('click', function () {
+        openPopup(popupPhoto);
+        popupSign.textContent = item.name;
+        openedPhoto.src = item.link;
+        openedPhoto.alt = item.name;
+    });
+
+    return cardElement;
+}

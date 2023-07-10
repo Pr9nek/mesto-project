@@ -1,18 +1,17 @@
-import Api from './api';
-import Card from './card';
-import Section from './section';
-
 import '../pages/index.css';
-// import {
-//   getUser,
-//   getInitialCards,
-//   createCard as postCard,
-//   setAvatar,
-//   setProfile
-// } from './api';
-// import {
-//   createCard
-// } from './card';
+import {
+  getUser,
+  getInitialCards,
+  createCard as postCard,
+  setAvatar,
+  setProfile
+} from './api';
+import {
+  enableValidation
+} from './validate';
+import {
+  createCard
+} from './card';
 import {
   closePopup,
   openPopup,
@@ -21,7 +20,6 @@ import {
 import {
   handleSubmit
 } from '../components/utils';
-import FormValidator from './form-validator';
 
 const popupInfoButton = document.querySelector('.profile__user-edit-button');
 const popupInfo = document.querySelector('.profile-popup');
@@ -43,61 +41,18 @@ const linkCardInput = document.querySelector('#card_mod_link');
 const elements = document.querySelector('.elements');
 export let userId;
 
-const api = new Api({
-  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-25',
-  headers: {
-    authorization: 'c7066d33-af2e-4ab1-9be7-8983d9995740',
-    'Content-Type': 'application/json'
-  }
-});
+Promise.all([getUser(), getInitialCards()])
+  .then(([user, cards]) => {
+    setUserData(user);
+    getInitialCards(cards)
+      .then((cards) => {
+        cards.forEach(card => elements.append(createCard(card)))
+      });
+  })
+  .catch(err => {
+    console.log(err); // выводим ошибку в консоль
+  });
 
-api.getInitialCards()
-.then((cards) => {
-  // cards.forEach((initialCard) => {
-  //   const card = new Card(
-  //     initialCard,
-  //     '#card',
-  //     () => api.setLike(initialCard._id),
-  //     () => api.deleteLike(initialCard._id),
-  //     () => api.deleteCard(initialCard._id)
-  //   );
-    
-  //   // TODO позже будет реализовано с помощью класса Section
-  //   elements.append(card.createCard());
-  // });
- 
-  const defaultCardList = new Section({
-    data: cards,
-    renderer: (initialCard) => {
-      const card = new Card(
-        initialCard,
-        '#card',
-        () => api.setLike(initialCard._id),
-        () => api.deleteLike(initialCard._id),
-        () => api.deleteCard(initialCard._id)
-      );
-      const cardElement = card.createCard();
-      defaultCardList.addItem(cardElement);
-    }
-  },
-  elements
-  );
-  defaultCardList.renderItems();
-});
-
-
-
-// Promise.all([getUser(), getInitialCards()])
-//   .then(([user, cards]) => {
-//     setUserData(user);
-//     getInitialCards(cards)
-//       .then((cards) => {
-//         cards.forEach(card => elements.append(createCard(card)))
-//       });
-//   })
-//   .catch(err => {
-//     console.log(err); // выводим ошибку в консоль
-//   });
 
 function setUserData(data) {
   avatar.src = data.avatar;
@@ -139,6 +94,7 @@ function handleProfileFormSubmit(evt) {
   handleSubmit(makeRequest, evt);
 }
 
+
 function handleAvatarFormSubmit(evt) {
   function makeRequest() {
     return setAvatar(avatarLinkInput.value).then((user) => {
@@ -163,11 +119,10 @@ function handleCardFormSubmit(evt) {
   handleSubmit(makeRequest, evt);
 };
 
-const userFormValidator = new FormValidator({
+enableValidation({
+  formSelector: '.form',
   inputSelector: '.form__input',
   submitButtonSelector: '.form__button',
   inactiveButtonClass: 'form__button_disabled',
   inputErrorClass: 'form__input_type_error'
-}, document.forms['user']);
-
-userFormValidator.enableValidation();
+});
