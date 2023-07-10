@@ -1,25 +1,13 @@
+import Api from './api';
+import Card from './card';
+import PopupWithImage from './popup-with-image';
+import Section from './section';
+
 import '../pages/index.css';
-import {
-  getUser,
-  getInitialCards,
-  createCard as postCard,
-  setAvatar,
-  setProfile
-} from './api';
-import {
-  enableValidation
-} from './validate';
-import {
-  createCard
-} from './card';
-import {
-  closePopup,
-  openPopup,
-  handlePopupCloseClick
-} from './modal';
 import {
   handleSubmit
 } from '../components/utils';
+import FormValidator from './form-validator';
 
 const popupInfoButton = document.querySelector('.profile__user-edit-button');
 const popupInfo = document.querySelector('.profile-popup');
@@ -41,18 +29,51 @@ const linkCardInput = document.querySelector('#card_mod_link');
 const elements = document.querySelector('.elements');
 export let userId;
 
-Promise.all([getUser(), getInitialCards()])
-  .then(([user, cards]) => {
-    setUserData(user);
-    getInitialCards(cards)
-      .then((cards) => {
-        cards.forEach(card => elements.append(createCard(card)))
-      });
-  })
-  .catch(err => {
-    console.log(err); // выводим ошибку в консоль
-  });
+const api = new Api({
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-25',
+  headers: {
+    authorization: 'c7066d33-af2e-4ab1-9be7-8983d9995740',
+    'Content-Type': 'application/json'
+  }
+});
 
+api.getInitialCards()
+.then((cards) => {
+  const defaultCardList = new Section({
+    data: cards,
+    renderer: (initialCard) => {
+      const card = new Card(
+        initialCard,
+        '#card',
+        () => api.setLike(initialCard._id),
+        () => api.deleteLike(initialCard._id),
+        () => api.deleteCard(initialCard._id),
+        () => popupPhoto.open(initialCard.link, initialCard.name)
+      );
+      const cardElement = card.createCard();
+      defaultCardList.addItem(cardElement);
+    }
+  },
+  elements
+  );
+  defaultCardList.renderItems();
+});
+
+
+const popupPhoto = new PopupWithImage('.photo-popup');
+popupPhoto.setEventListeners();
+
+// Promise.all([getUser(), getInitialCards()])
+//   .then(([user, cards]) => {
+//     setUserData(user);
+//     getInitialCards(cards)
+//       .then((cards) => {
+//         cards.forEach(card => elements.append(createCard(card)))
+//       });
+//   })
+//   .catch(err => {
+//     console.log(err); // выводим ошибку в консоль
+//   });
 
 function setUserData(data) {
   avatar.src = data.avatar;
@@ -61,7 +82,7 @@ function setUserData(data) {
   userId = data._id;
 }
 
-handlePopupCloseClick();
+// handlePopupCloseClick();
 
 popupInfoButton.addEventListener('click', function () {
   nameInfoInput.value = user.textContent;
@@ -69,9 +90,9 @@ popupInfoButton.addEventListener('click', function () {
   openPopup(popupInfo);
 });
 
-popupCardButton.addEventListener('click', function () {
-  openPopup(popupCard);
-});
+// popupCardButton.addEventListener('click', function () {
+//   openPopup(popupCard);
+// });
 
 popupButtonAvatar.addEventListener('click', function () {
   openPopup(popupAvatar);
@@ -93,7 +114,6 @@ function handleProfileFormSubmit(evt) {
   // вызываем универсальную функцию, передавая в нее запрос, событие и текст изменения кнопки (если нужен другой, а не `"Сохранение..."`)
   handleSubmit(makeRequest, evt);
 }
-
 
 function handleAvatarFormSubmit(evt) {
   function makeRequest() {
@@ -119,10 +139,11 @@ function handleCardFormSubmit(evt) {
   handleSubmit(makeRequest, evt);
 };
 
-enableValidation({
-  formSelector: '.form',
+const userFormValidator = new FormValidator({
   inputSelector: '.form__input',
   submitButtonSelector: '.form__button',
   inactiveButtonClass: 'form__button_disabled',
   inputErrorClass: 'form__input_type_error'
-});
+}, document.forms['user']);
+
+userFormValidator.enableValidation();
