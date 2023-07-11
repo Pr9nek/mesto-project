@@ -4,11 +4,9 @@ import PopupWithImage from './popup-with-image';
 import PopupWithForm from './popup-with-form';
 import Section from './section';
 import FormValidator from './form-validator';
-
+import UserInfo from './userinfo';
 import '../pages/index.css';
-import {
-  handleSubmit
-} from '../components/utils';
+
 
 const popupInfoButton = document.querySelector('.profile__user-edit-button');
 const popupInfo = document.querySelector('.profile-popup');
@@ -38,7 +36,21 @@ const api = new Api({
   }
 }); 
 
-api.getUser();
+// api.getUser();
+
+const userInfo = new UserInfo({
+  nameSelector: '.profile__user',
+  infoSelector: '.profile__status' },
+  api
+);
+
+userInfo.getUserInfo()
+.then((data) => {
+  avatar.src = data.avatar;
+  user.textContent = data.name;
+  status.textContent = data.about;
+  userId = data._id;
+});
 
 api.getInitialCards()
 .then((cards) => {
@@ -69,15 +81,18 @@ popupPhoto.setEventListeners();
 
 const popupProfile = new PopupWithForm('.profile-popup', 
   (data) => {
-    api.setProfile(data.name, data.about)
-      .then(() => popupProfile.close())
-      .catch((err) => {
-        // в каждом запросе нужно ловить ошибку
-        console.error(`Ошибка: ${err}`);
-      })
-      .finally(() => {
-        popupProfile.renderLoading(false);
-      });
+    userInfo.setUserInfo(data.name, data.about);
+    popupProfile.close();
+    popupProfile.renderLoading(false);
+      // api.setProfile(data.name, data.about)
+      // .then(() => popupProfile.close())
+      // .catch((err) => {
+      //   // в каждом запросе нужно ловить ошибку
+      //   console.error(`Ошибка: ${err}`);
+      // })
+      // .finally(() => {
+      //   popupProfile.renderLoading(false);
+      // });
   }
 );
 
