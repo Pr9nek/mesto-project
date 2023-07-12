@@ -39,18 +39,24 @@ const api = new Api({
 // api.getUser();
 
 const userInfo = new UserInfo({
-  nameSelector: '.profile__user',
-  infoSelector: '.profile__status' },
-  api
+  nameSelector: user,
+  infoSelector: status,
+  avatarSelector: avatar },
+  // avatarSelector: '.profile__avatar' },
+  () => api.getUser(),
+  (name, info) => api.setProfile(name, info)
+  //api
 );
 
-userInfo.getUserInfo()
-.then((data) => {
-  avatar.src = data.avatar;
-  user.textContent = data.name;
-  status.textContent = data.about;
-  userId = data._id;
-});
+console.log(userInfo.getUserInfo())
+userInfo.getUserInfo();
+// .then((data) => {
+//   console.log(data);
+//   // avatar.src = data.avatar;
+//   // user.textContent = data.name;
+//   // status.textContent = data.about;
+//   // userId = data._id;
+// });
 
 api.getInitialCards()
 .then((cards) => {
@@ -80,8 +86,8 @@ const popupPhoto = new PopupWithImage('.photo-popup');
 popupPhoto.setEventListeners();
 
 const popupProfile = new PopupWithForm('.profile-popup', 
-  (data) => {
-    userInfo.setUserInfo(data.name, data.about);
+  () => {
+    userInfo.setUserInfo( nameInfoInput.value, statusInfoInput.value );
     popupProfile.close();
     popupProfile.renderLoading(false);
       // api.setProfile(data.name, data.about)
@@ -138,12 +144,9 @@ popupProfile.setEventListeners();
 popupCardButton.addEventListener('click', () => popupCard.open());
 popupCard.setEventListeners();
 popupInfoButton.addEventListener('click', () => {
-  popupProfile.open()
-  userInfo.getUserInfo()
-  .then((data) => {
-    nameInfoInput.value = data.name;
-    statusInfoInput.value = data.about;
-  });
+  popupProfile.open();
+  nameInfoInput.value = user.textContent;
+  statusInfoInput.value = status.textContent;
 });
 
 // cpnst popupCards = new PopupWithForm('.cards-popup', () => api.setProfile());
