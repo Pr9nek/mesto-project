@@ -137,7 +137,14 @@ const popupCard = new PopupWithForm('.cards-popup',
 popupProfile.setEventListeners();
 popupCardButton.addEventListener('click', () => popupCard.open());
 popupCard.setEventListeners();
-popupInfoButton.addEventListener('click', () => popupProfile.open());
+popupInfoButton.addEventListener('click', () => {
+  popupProfile.open()
+  userInfo.getUserInfo()
+  .then((data) => {
+    nameInfoInput.value = data.name;
+    statusInfoInput.value = data.about;
+  });
+});
 
 // cpnst popupCards = new PopupWithForm('.cards-popup', () => api.setProfile());
 
