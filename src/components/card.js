@@ -64,7 +64,7 @@ export default class Card {
                         this._item.likes = card.likes;
                         evt.target.classList.add(activeLikeClass);
                         likeCounter.textContent = card.likes.length;
-                        item = JSON.parse(JSON.stringify(card));
+                        this._item = JSON.parse(JSON.stringify(card));
                     })
                     .catch((err) => {
                         console.log(err); // выводим ошибку в консоль
@@ -76,7 +76,7 @@ export default class Card {
                         this._item.likes = card.likes;
                         evt.target.classList.remove(activeLikeClass);
                         likeCounter.textContent = card.likes.length;
-                        item = JSON.parse(JSON.stringify(card));
+                        this._item = JSON.parse(JSON.stringify(card));
                     })
                     .catch((err) => {
                         console.log(err); // выводим ошибку в консоль
