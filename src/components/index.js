@@ -6,13 +6,8 @@ import Section from './section';
 import FormValidator from './form-validator';
 import UserInfo from './user-info';
 import '../pages/index.css';
+import { popupInfoButton, popupCardButton, popupButtonAvatar, elements } from '../utils/constants';
 
-const popupInfoButton = document.querySelector('.profile__user-edit-button');
-const popupCardButton = document.querySelector('.profile__photo-edit');
-// const popupCard = document.querySelector('.cards-popup');
-const popupButtonAvatar = document.querySelector('.profile__ava-container')
-const elements = document.querySelector('.elements');
-export let userId;
 
 const api = new Api({
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-25',
