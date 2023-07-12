@@ -6,16 +6,13 @@ import Section from './section';
 import FormValidator from './form-validator';
 
 import '../pages/index.css';
-import {
-  handleSubmit
-} from '../components/utils';
 
 const popupInfoButton = document.querySelector('.profile__user-edit-button');
 const popupInfo = document.querySelector('.profile-popup');
 const popupCardButton = document.querySelector('.profile__photo-edit');
 // const popupCard = document.querySelector('.cards-popup');
 const popupButtonAvatar = document.querySelector('.profile__ava-container')
-const popupAvatar = document.querySelector('.avatar-popup');
+// const popupAvatar = document.querySelector('.avatar-popup');
 const formInfoElement = document.forms['user'];
 const nameInfoInput = document.querySelector('#user_mod_name');
 const statusInfoInput = document.querySelector('#user_mod_status');
@@ -81,9 +78,22 @@ const popupProfile = new PopupWithForm('.profile-popup',
   }
 );
 
+const popupAvatar = new PopupWithForm('.avatar-popup', 
+  (data) => {
+    api.setAvatar(data.avatar)
+      .then(() => popupAvatar.close())
+      .catch((err) => {
+        // в каждом запросе нужно ловить ошибку
+        console.error(`Ошибка: ${err}`);
+      })
+      .finally(() => {
+        popupAvatar.renderLoading(false);
+      });
+  }
+);
+
 const popupCard = new PopupWithForm('.cards-popup', 
   (data) => {
-    console.log(data)
     api.createCard({link: data.link, name: data.name})
       .then((cardData) => {
         popupCard.close()
@@ -109,20 +119,25 @@ const popupCard = new PopupWithForm('.cards-popup',
       
         sectionCard.renderItems();
       })
-      // .catch((err) => {
-      //   // в каждом запросе нужно ловить ошибку
-      //   console.error(`Ошибка: ${err}`);
-      // })
+      .catch((err) => {
+        // в каждом запросе нужно ловить ошибку
+        console.error(`Ошибка: ${err}`);
+      })
       .finally(() => {
         popupCard.renderLoading(false);
       });
   }
 );
 
+popupInfoButton.addEventListener('click', () => popupProfile.open());
 popupProfile.setEventListeners();
+
 popupCardButton.addEventListener('click', () => popupCard.open());
 popupCard.setEventListeners();
-popupInfoButton.addEventListener('click', () => popupProfile.open());
+
+popupButtonAvatar.addEventListener('click', () => popupAvatar.open());
+popupAvatar.setEventListeners();
+;
 
 // cpnst popupCards = new PopupWithForm('.cards-popup', () => api.setProfile());
 
