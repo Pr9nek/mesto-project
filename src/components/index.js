@@ -7,7 +7,7 @@ import FormValidator from './form-validator';
 import UserInfo from './user-info';
 import '../pages/index.css';
 import { popupInfoButton, popupCardButton, popupButtonAvatar, elementsSelector } from '../utils/constants';
-export let userId;
+let userId;
 
 const api = new Api({
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-25',
@@ -56,7 +56,8 @@ function createCard(item) {
         () => api.setLike(item._id),
         () => api.deleteLike(item._id),
         () => api.deleteCard(item._id),
-        () => popupPhoto.open(item.link, item.name)
+        () => popupPhoto.open(item.link, item.name),
+        userId
       );
 
       const cardElement = card.createCard();

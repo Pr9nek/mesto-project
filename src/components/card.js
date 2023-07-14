@@ -1,15 +1,14 @@
 const activeLikeClass = 'elements__like_active';
-import {userId} from './index';
-// const myId = "c284fc2d348c95481b25c574";
 
 export default class Card {
-    constructor(item, selector, setLike, deleteLike, deleteCard, handleCardClick) {
+    constructor(item, selector, setLike, deleteLike, deleteCard, handleCardClick, userId) {
         this._item = item;
         this._selector = selector;
         this._setLike = setLike;
         this._deleteLike = deleteLike;
         this._deleteCard = deleteCard;
         this._handleCardClick = handleCardClick;
+        this._userId = userId;
     }
 
     _getElement() {
@@ -37,12 +36,12 @@ export default class Card {
 
         this._setEventListeners(this._likeButton, this._trashButton, this._likeCounter, this._cardPhoto);
     
-        if (this._item.owner._id !== userId) {
+        if (this._item.owner._id !== this._userId) {
             this._trashButton.remove();
         }
 
         // проставляем активный лайк, если там есть наш
-        if (this._item.likes.length > 0 && this._item.likes.find(like => like._id === userId)) {
+        if (this._item.likes.length > 0 && this._item.likes.find(like => like._id === this._userId)) {
             this._likeButton.classList.add(activeLikeClass);
         }
 
@@ -59,7 +58,7 @@ export default class Card {
 		});
 
         likeButton.addEventListener('click', (evt) => {
-            if (this._item.likes.length === 0 || !this._item.likes.find(like => like._id === userId)) {
+            if (this._item.likes.length === 0 || !this._item.likes.find(like => like._id === this._userId)) {
 			    this._setLike()
                     .then((card) => {
                         this._item.likes = card.likes;
