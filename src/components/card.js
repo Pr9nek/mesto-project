@@ -1,5 +1,6 @@
 const activeLikeClass = 'elements__like_active';
-const myId = "c284fc2d348c95481b25c574";
+import {userId} from './index';
+// const myId = "c284fc2d348c95481b25c574";
 
 export default class Card {
     constructor(item, selector, setLike, deleteLike, deleteCard, handleCardClick) {
@@ -12,37 +13,37 @@ export default class Card {
     }
 
     _getElement() {
-        const cardElement = document
+        this._cardElement = document
         .querySelector(this._selector)
         .content
         .querySelector('.elements__card')
         .cloneNode(true);
 
-        return cardElement;
+        return this._cardElement;
     }
 
     createCard() {
         this._element = this._getElement();
-        const cardPhoto = this._element.querySelector('.elements__photo');
-        const cardSignature = this._element.querySelector('.elements__signature');
-        const likeButton = this._element.querySelector('.elements__like');
-        const trashButton = this._element.querySelector('.elements__del');
-        const likeCounter = this._element.querySelector('.elements__like-counter');
+        this._cardPhoto = this._element.querySelector('.elements__photo');
+        this._cardSignature = this._element.querySelector('.elements__signature');
+        this._likeButton = this._element.querySelector('.elements__like');
+        this._trashButton = this._element.querySelector('.elements__del');
+        this._likeCounter = this._element.querySelector('.elements__like-counter');
     
-        cardPhoto.src = this._item.link;
-        cardPhoto.alt = this._item.name;
-        cardSignature.textContent = this._item.name;
-        likeCounter.textContent = this._item.likes.length;
+        this._cardPhoto.src = this._item.link;
+        this._cardPhoto.alt = this._item.name;
+        this._cardSignature.textContent = this._item.name;
+        this._likeCounter.textContent = this._item.likes.length;
 
-        this._setEventListeners(likeButton, trashButton, likeCounter, cardPhoto);
+        this._setEventListeners(this._likeButton, this._trashButton, this._likeCounter, this._cardPhoto);
     
-        if (this._item.owner._id !== myId) {
-            trashButton.remove();
+        if (this._item.owner._id !== userId) {
+            this._trashButton.remove();
         }
 
         // проставляем активный лайк, если там есть наш
-        if (this._item.likes.length > 0 && this._item.likes.find(like => like._id === myId)) {
-            likeButton.classList.add(activeLikeClass);
+        if (this._item.likes.length > 0 && this._item.likes.find(like => like._id === userId)) {
+            this._likeButton.classList.add(activeLikeClass);
         }
 
         return this._element;
@@ -58,7 +59,7 @@ export default class Card {
 		});
 
         likeButton.addEventListener('click', (evt) => {
-            if (this._item.likes.length === 0 || !this._item.likes.find(like => like._id === myId)) {
+            if (this._item.likes.length === 0 || !this._item.likes.find(like => like._id === userId)) {
 			    this._setLike()
                     .then((card) => {
                         this._item.likes = card.likes;

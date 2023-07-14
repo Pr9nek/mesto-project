@@ -20,7 +20,7 @@ export default class UserInfo {
     }
 
     setUserAvatar(src) {
-        const avatar = document.querySelector(this._avatar);
-        avatar.src = src;
+        this._avatarElement = document.querySelector(this._avatar);
+        this._avatarElement.src = src;
     }
 }

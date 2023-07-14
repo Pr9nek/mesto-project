@@ -6,8 +6,8 @@ import Section from './section';
 import FormValidator from './form-validator';
 import UserInfo from './user-info';
 import '../pages/index.css';
-import { popupInfoButton, popupCardButton, popupButtonAvatar, elements } from '../utils/constants';
-
+import { popupInfoButton, popupCardButton, popupButtonAvatar, elementsSelector } from '../utils/constants';
+export let userId;
 
 const api = new Api({
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-25',
@@ -17,40 +17,68 @@ const api = new Api({
   }
 }); 
 
-api.getUser().then(user => {
-  myUser.setUserInfo(user);
-  myUser.setUserAvatar(user.avatar);
-})
-
 const myUser = new UserInfo(
   '.profile__user',
   '.profile__status',
   '.profile__avatar',
 );
 
-api.getInitialCards()
-.then((cards) => {
-  const defaultCardList = new Section({
-    data: cards,
-    renderer: (initialCard) => {
-      const card = new Card(
-          initialCard,
-          '#card',
-          () => api.setLike(initialCard._id),
-          () => api.deleteLike(initialCard._id),
-          () => api.deleteCard(initialCard._id),
-          () => popupPhoto.open(initialCard.link, initialCard.name)
-        );
-        
-        const cardElement = card.createCard();
-        defaultCardList.addItem(cardElement);
-      }
-    },
-    elements
-  );
+let section;
 
-  defaultCardList.renderItems();
-});
+Promise.all([api.getUser(), api.getInitialCards()])
+  .then(([user, cards]) => {
+    myUser.setUserInfo(user);
+    myUser.setUserAvatar(user.avatar);
+    userId = user._id;
+    section = new Section(
+      {
+        data: cards,
+        renderer: (initialCard) => {
+          const card = createCard(initialCard);
+          section.addItem(card);
+        }
+      },
+      elementsSelector
+    );
+
+    section.renderItems();
+  })
+  .catch((err) => {
+    // в каждом запросе нужно ловить ошибку
+    console.error(`Ошибка: ${err}`);
+  });
+
+function createCard(item) {
+  // тут создаете карточку и возвращаете ее
+      const card = new Card(
+        item,
+        '#card',
+        () => api.setLike(item._id),
+        () => api.deleteLike(item._id),
+        () => api.deleteCard(item._id),
+        () => popupPhoto.open(item.link, item.name)
+      );
+
+      const cardElement = card.createCard();
+      return cardElement;
+}
+  
+const popupCard = new PopupWithForm('.cards-popup', 
+  (data) => {
+    api.createCard({link: data.link, name: data.name})
+      .then((cardData) => {
+        popupCard.close()
+        section.addItem(createCard(cardData));
+      })
+      .catch((err) => {
+        // в каждом запросе нужно ловить ошибку
+        console.error(`Ошибка: ${err}`);
+      })
+      .finally(() => {
+        popupCard.renderLoading(false);
+      });
+  }
+);
 
 const popupPhoto = new PopupWithImage('.photo-popup');
 popupPhoto.setEventListeners();
@@ -85,43 +113,6 @@ const popupAvatar = new PopupWithForm('.avatar-popup',
       })
       .finally(() => {
         popupAvatar.renderLoading(false);
-      });
-  }
-);
-
-const popupCard = new PopupWithForm('.cards-popup', 
-  (data) => {
-    api.createCard({link: data.link, name: data.name})
-      .then((cardData) => {
-        popupCard.close()
-
-        const sectionCard = new Section({
-          data: [cardData],
-          renderer: (newCard) => {
-            const card = new Card(
-              newCard,
-              '#card',
-              () => api.setLike(newCard._id),
-              () => api.deleteLike(newCard._id),
-              () => api.deleteCard(newCard._id),
-              () => popupPhoto.open(newCard.link, newCard.name)
-            );
-            
-            const cardElement = card.createCard();
-            sectionCard.addItem(cardElement);
-          }
-        },
-        elements
-        );
-      
-        sectionCard.renderItems();
-      })
-      .catch((err) => {
-        // в каждом запросе нужно ловить ошибку
-        console.error(`Ошибка: ${err}`);
-      })
-      .finally(() => {
-        popupCard.renderLoading(false);
       });
   }
 );
